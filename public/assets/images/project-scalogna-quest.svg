@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#e8dece"/>
+  <rect x="72" y="62" width="1056" height="636" rx="42" fill="#211d19"/>
+  <rect x="114" y="106" width="972" height="548" rx="30" fill="#f3e8d8"/>
+  <text x="600" y="188" text-anchor="middle" font-family="Georgia,serif" font-size="78" fill="#2b241f">Scalogna Quest</text>
+  <text x="600" y="228" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" letter-spacing="5" fill="#6f675f">TEXT ADVENTURE · C · BOARD GAME INSPIRED</text>
+  <rect x="170" y="286" width="312" height="270" rx="26" fill="#2b241f"/>
+  <rect x="518" y="286" width="196" height="270" rx="26" fill="#d5c3a8"/>
+  <rect x="750" y="286" width="280" height="270" rx="26" fill="#d07a58"/>
+  <g fill="#fff8ef" opacity=".9">
+    <rect x="206" y="326" width="214" height="18" rx="9"/>
+    <rect x="206" y="366" width="168" height="14" rx="7" opacity=".62"/>
+    <rect x="206" y="400" width="195" height="14" rx="7" opacity=".48"/>
+  </g>
+  <g stroke="#5f554d" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M560 372h112v112H560z"/>
+    <path d="M616 372v112M560 428h112"/>
+  </g>
+  <g fill="#fff6ef">
+    <circle cx="854" cy="378" r="18"/><circle cx="928" cy="378" r="18"/>
+    <circle cx="854" cy="452" r="18"/><circle cx="928" cy="452" r="18"/><circle cx="891" cy="415" r="18"/>
+  </g>
+  <rect x="420" y="592" width="360" height="44" rx="22" fill="#2b241f"/>
+</svg>
