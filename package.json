@@ -1,5 +1,5 @@
 {
-  "name": "portfolio-personale",
+  "name": "portfolio-personale-dinamico",
   "version": "1.0.0",
   "description": "Portfolio personale dinamico con frontend statico, backend Node.js, MySQL e autenticazione admin JWT.",
   "main": "server.js",

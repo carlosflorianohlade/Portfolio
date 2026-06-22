@@ -691,10 +691,9 @@ function renderAdminProjectsTable(projects) {
 async function initializeAdminDashboardPage() {
   const status = document.querySelector("[data-admin-dashboard-status]");
   const search = document.querySelector("[data-admin-project-search]");
-  const logoutButton = document.querySelector("[data-admin-logout]");
-
   const admin = await checkAdminSession({ redirectOnFail: true });
   if (!admin) return;
+  setupAdminLogout();
 
   let projects = [];
   try {
@@ -744,15 +743,6 @@ async function initializeAdminDashboardPage() {
     }
   });
 
-  logoutButton?.addEventListener("click", async () => {
-    try {
-      await fetchJson(`${API_BASE}/admin/logout`, { method: "POST" });
-    } catch {
-      // Anche se il server non risponde, l'utente viene riportato alla pagina di accesso.
-    } finally {
-      window.location.href = "admin-login.html";
-    }
-  });
 }
 
 function collectProjectFormValues(form) {
@@ -800,6 +790,7 @@ async function initializeAdminProjectFormPage() {
 
   const admin = await checkAdminSession({ redirectOnFail: true });
   if (!admin) return;
+  setupAdminLogout();
 
   const params = new URLSearchParams(window.location.search);
   const projectId = params.get("id");
@@ -859,6 +850,332 @@ async function initializeAdminProjectFormPage() {
   });
 }
 
+
+function normalizeSkills(skills) {
+  return (skills || []).map((skill) => ({
+    ...skill,
+    level_value: Math.max(0, Math.min(100, Number(skill.level_value ?? skill.level) || 0))
+  }));
+}
+
+function formatDateTime(value) {
+  if (!value) return "-";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+  return new Intl.DateTimeFormat("it-IT", {
+    dateStyle: "short",
+    timeStyle: "short"
+  }).format(date);
+}
+
+function setupAdminLogout() {
+  document.querySelectorAll("[data-admin-logout]").forEach((button) => {
+    if (button.dataset.bound === "true") return;
+    button.dataset.bound = "true";
+    button.addEventListener("click", async () => {
+      try {
+        await fetchJson(`${API_BASE}/admin/logout`, { method: "POST" });
+      } catch {
+        // Anche se il server non risponde, l'utente viene riportato alla pagina di accesso.
+      } finally {
+        window.location.href = "admin-login.html";
+      }
+    });
+  });
+}
+
+function adminSkillRowTemplate(skill) {
+  return `
+    <tr>
+      <td><strong>${escapeHtml(skill.name)}</strong></td>
+      <td>${escapeHtml(skill.group_name)}</td>
+      <td>
+        <span class="skill-pill">${escapeHtml(skill.level_value)} / 100</span>
+      </td>
+      <td>
+        <div class="table-actions">
+          <button class="button button-small button-secondary" type="button" data-edit-skill="${escapeHtml(skill.id)}">Modifica</button>
+          <button class="button button-small button-danger" type="button" data-delete-skill="${escapeHtml(skill.id)}">Elimina</button>
+        </div>
+      </td>
+    </tr>`;
+}
+
+function renderAdminSkillsTable(skills) {
+  const tbody = document.querySelector("[data-admin-skills-table]");
+  const count = document.querySelector("[data-admin-skill-count]");
+  if (!tbody) return;
+
+  if (count) {
+    count.textContent = `${skills.length} ${skills.length === 1 ? "competenza" : "competenze"}`;
+  }
+
+  if (!skills.length) {
+    tbody.innerHTML = '<tr><td colspan="4">Nessuna competenza disponibile.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = skills.map(adminSkillRowTemplate).join("");
+}
+
+function collectSkillFormValues(form) {
+  return {
+    name: form.elements.name.value.trim(),
+    group_name: form.elements.group_name.value.trim(),
+    level_value: form.elements.level_value.value.trim()
+  };
+}
+
+function validateSkillForm(values) {
+  const errors = {};
+  const level = Number(values.level_value);
+
+  if (values.name.length < 2) errors.name = "Inserisci almeno 2 caratteri.";
+  if (values.group_name.length < 2) errors.group_name = "Inserisci un gruppo valido.";
+  if (!Number.isInteger(level) || level < 0 || level > 100) {
+    errors.level_value = "Inserisci un valore intero tra 0 e 100.";
+  }
+
+  return errors;
+}
+
+function resetSkillForm(form) {
+  form.reset();
+  form.elements.id.value = "";
+  const title = document.querySelector("[data-skill-form-title]");
+  const submit = document.querySelector("[data-skill-submit]");
+  if (title) title.textContent = "Nuova competenza";
+  if (submit) submit.textContent = "Salva competenza";
+  showAdminFieldErrors(form, {});
+}
+
+function fillSkillForm(form, skill) {
+  form.elements.id.value = skill.id || "";
+  form.elements.name.value = skill.name || "";
+  form.elements.group_name.value = skill.group_name || "";
+  form.elements.level_value.value = skill.level_value ?? skill.level ?? "";
+  const title = document.querySelector("[data-skill-form-title]");
+  const submit = document.querySelector("[data-skill-submit]");
+  if (title) title.textContent = "Modifica competenza";
+  if (submit) submit.textContent = "Aggiorna competenza";
+  form.elements.name.focus();
+}
+
+async function initializeAdminSkillsPage() {
+  const form = document.querySelector("[data-admin-skill-form]");
+  const status = document.querySelector("[data-admin-skills-status]");
+  const search = document.querySelector("[data-admin-skill-search]");
+  const resetButton = document.querySelector("[data-skill-reset]");
+  const submitButton = document.querySelector("[data-skill-submit]");
+
+  const admin = await checkAdminSession({ redirectOnFail: true });
+  if (!admin) return;
+  setupAdminLogout();
+
+  let skills = [];
+
+  const applySearch = () => {
+    const query = search?.value.trim().toLowerCase() || "";
+    const filtered = skills.filter((skill) => {
+      const text = [skill.name, skill.group_name, skill.level_value].join(" ").toLowerCase();
+      return !query || text.includes(query);
+    });
+    renderAdminSkillsTable(filtered);
+  };
+
+  const loadSkills = async () => {
+    try {
+      setFormStatus(status, "Caricamento competenze...", "info");
+      const data = await fetchJson(`${API_BASE}/admin/skills`);
+      skills = normalizeSkills(data.skills || data || []);
+      setFormStatus(status, "", "info");
+      applySearch();
+    } catch (error) {
+      skills = [];
+      renderAdminSkillsTable(skills);
+      setFormStatus(status, error.message || "Non sono riuscito a caricare le competenze.", "error");
+    }
+  };
+
+  if (!form || !submitButton) {
+    await loadSkills();
+    return;
+  }
+
+  search?.addEventListener("input", applySearch);
+  resetButton?.addEventListener("click", () => resetSkillForm(form));
+
+  document.addEventListener("click", async (event) => {
+    const editButton = event.target.closest("[data-edit-skill]");
+    const deleteButton = event.target.closest("[data-delete-skill]");
+
+    if (editButton) {
+      const skill = skills.find((item) => String(item.id) === String(editButton.dataset.editSkill));
+      if (skill) fillSkillForm(form, skill);
+      return;
+    }
+
+    if (!deleteButton) return;
+
+    const skillId = deleteButton.dataset.deleteSkill;
+    const skill = skills.find((item) => String(item.id) === String(skillId));
+    const confirmed = window.confirm(`Eliminare la competenza "${skill?.name || skillId}"?`);
+    if (!confirmed) return;
+
+    deleteButton.disabled = true;
+    try {
+      await fetchJson(`${API_BASE}/admin/skills/${encodeURIComponent(skillId)}`, {
+        method: "DELETE"
+      });
+      skills = skills.filter((item) => String(item.id) !== String(skillId));
+      applySearch();
+      if (String(form.elements.id.value) === String(skillId)) resetSkillForm(form);
+      showToast("Competenza eliminata.");
+    } catch (error) {
+      setFormStatus(status, error.message || "Eliminazione non riuscita.", "error");
+      deleteButton.disabled = false;
+    }
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const values = collectSkillFormValues(form);
+    const errors = validateSkillForm(values);
+    showAdminFieldErrors(form, errors);
+
+    if (Object.keys(errors).length) {
+      setFormStatus(status, "Correggi i campi evidenziati prima di salvare.", "error");
+      form.querySelector('[aria-invalid="true"]')?.focus();
+      return;
+    }
+
+    const skillId = form.elements.id.value;
+    const isEdit = Boolean(skillId);
+
+    submitButton.disabled = true;
+    submitButton.textContent = isEdit ? "Aggiornamento..." : "Creazione...";
+    setFormStatus(status, "Salvataggio competenza...", "info");
+
+    try {
+      await fetchJson(
+        isEdit
+          ? `${API_BASE}/admin/skills/${encodeURIComponent(skillId)}`
+          : `${API_BASE}/admin/skills`,
+        {
+          method: isEdit ? "PUT" : "POST",
+          body: JSON.stringify(values)
+        }
+      );
+      resetSkillForm(form);
+      await loadSkills();
+      showToast(isEdit ? "Competenza aggiornata." : "Competenza creata.");
+    } catch (error) {
+      setFormStatus(status, error.message || "Salvataggio non riuscito.", "error");
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = form.elements.id.value ? "Aggiorna competenza" : "Salva competenza";
+    }
+  });
+
+  await loadSkills();
+}
+
+function adminMessageRowTemplate(message) {
+  return `
+    <tr>
+      <td>
+        <strong>${escapeHtml(message.name)}</strong>
+        <span class="table-description"><a href="mailto:${escapeHtml(message.email)}">${escapeHtml(message.email)}</a></span>
+      </td>
+      <td>
+        <strong>${escapeHtml(message.subject)}</strong>
+        <p class="message-preview">${escapeHtml(message.message)}</p>
+      </td>
+      <td>${escapeHtml(formatDateTime(message.created_at))}</td>
+      <td>
+        <div class="table-actions">
+          <button class="button button-small button-danger" type="button" data-delete-message="${escapeHtml(message.id)}">Elimina</button>
+        </div>
+      </td>
+    </tr>`;
+}
+
+function renderAdminMessagesTable(messages) {
+  const tbody = document.querySelector("[data-admin-messages-table]");
+  const count = document.querySelector("[data-admin-message-count]");
+  if (!tbody) return;
+
+  if (count) {
+    count.textContent = `${messages.length} ${messages.length === 1 ? "messaggio" : "messaggi"}`;
+  }
+
+  if (!messages.length) {
+    tbody.innerHTML = '<tr><td colspan="4">Nessun messaggio disponibile.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = messages.map(adminMessageRowTemplate).join("");
+}
+
+async function initializeAdminMessagesPage() {
+  const status = document.querySelector("[data-admin-messages-status]");
+  const search = document.querySelector("[data-admin-message-search]");
+
+  const admin = await checkAdminSession({ redirectOnFail: true });
+  if (!admin) return;
+  setupAdminLogout();
+
+  let messages = [];
+
+  const applySearch = () => {
+    const query = search?.value.trim().toLowerCase() || "";
+    const filtered = messages.filter((message) => {
+      const text = [message.name, message.email, message.subject, message.message, message.created_at]
+        .join(" ")
+        .toLowerCase();
+      return !query || text.includes(query);
+    });
+    renderAdminMessagesTable(filtered);
+  };
+
+  try {
+    setFormStatus(status, "Caricamento messaggi...", "info");
+    const data = await fetchJson(`${API_BASE}/admin/messages`);
+    messages = data.messages || data || [];
+    setFormStatus(status, "", "info");
+  } catch (error) {
+    messages = [];
+    setFormStatus(status, error.message || "Non sono riuscito a caricare i messaggi.", "error");
+  }
+
+  search?.addEventListener("input", applySearch);
+  applySearch();
+
+  document.addEventListener("click", async (event) => {
+    const deleteButton = event.target.closest("[data-delete-message]");
+    if (!deleteButton) return;
+
+    const messageId = deleteButton.dataset.deleteMessage;
+    const message = messages.find((item) => String(item.id) === String(messageId));
+    const confirmed = window.confirm(`Eliminare il messaggio di ${message?.name || "questo contatto"}?`);
+    if (!confirmed) return;
+
+    deleteButton.disabled = true;
+    try {
+      await fetchJson(`${API_BASE}/admin/messages/${encodeURIComponent(messageId)}`, {
+        method: "DELETE"
+      });
+      messages = messages.filter((item) => String(item.id) !== String(messageId));
+      applySearch();
+      showToast("Messaggio eliminato.");
+    } catch (error) {
+      setFormStatus(status, error.message || "Eliminazione non riuscita.", "error");
+      deleteButton.disabled = false;
+    }
+  });
+}
+
 function initializePage() {
   setCurrentNavigation();
   initializeNavigation();
@@ -891,6 +1208,12 @@ function initializePage() {
       break;
     case "admin-project-form":
       initializeAdminProjectFormPage();
+      break;
+    case "admin-skills":
+      initializeAdminSkillsPage();
+      break;
+    case "admin-messages":
+      initializeAdminMessagesPage();
       break;
     default:
       break;

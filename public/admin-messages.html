@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Dashboard amministratore per gestire i progetti del portfolio.">
-  <title>Dashboard admin | Portfolio</title>
+  <meta name="description" content="Visualizzazione amministrativa dei messaggi ricevuti dal form contatti.">
+  <title>Messaggi ricevuti | Portfolio</title>
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
-<body data-page="admin-dashboard">
+<body data-page="admin-messages">
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 
   <header class="site-header">
@@ -38,62 +38,42 @@
   </header>
 
   <main id="contenuto">
-    <section class="section admin-section" aria-labelledby="titolo-dashboard-admin">
+    <section class="section admin-section" aria-labelledby="titolo-messaggi-admin">
       <div class="container">
         <div class="admin-header">
           <div>
             <span class="eyebrow">Dashboard</span>
-            <h1 id="titolo-dashboard-admin">Area amministratore</h1>
-            <p class="lead">Da qui l'amministratore può gestire progetti, competenze e messaggi ricevuti dal form contatti.</p>
+            <h1 id="titolo-messaggi-admin">Messaggi ricevuti</h1>
+            <p class="lead">Da qui l'amministratore può leggere ed eliminare i messaggi salvati tramite il form Contatti.</p>
           </div>
           <div class="admin-header-actions">
-            <a class="button button-primary" href="admin-project-form.html">Nuovo progetto</a>
+            <a class="button button-secondary" href="admin-dashboard.html">Progetti</a>
             <a class="button button-secondary" href="admin-skills.html">Competenze</a>
-            <a class="button button-secondary" href="admin-messages.html">Messaggi</a>
             <button class="button button-secondary" type="button" data-admin-logout>Esci</button>
           </div>
         </div>
 
-        <p class="form-status" data-admin-dashboard-status role="status" aria-live="polite"></p>
-
-        <div class="admin-quicklinks" aria-label="Sezioni amministrative">
-          <a class="admin-quicklink" href="admin-dashboard.html" aria-current="page">
-            <span class="eyebrow">Contenuti</span>
-            <strong>Progetti</strong>
-            <span>CRUD completo dei progetti pubblici.</span>
-          </a>
-          <a class="admin-quicklink" href="admin-skills.html">
-            <span class="eyebrow">Profilo</span>
-            <strong>Competenze</strong>
-            <span>Creazione, modifica ed eliminazione delle skill.</span>
-          </a>
-          <a class="admin-quicklink" href="admin-messages.html">
-            <span class="eyebrow">Contatti</span>
-            <strong>Messaggi</strong>
-            <span>Lettura ed eliminazione dei messaggi ricevuti.</span>
-          </a>
-        </div>
+        <p class="form-status" data-admin-messages-status role="status" aria-live="polite"></p>
 
         <div class="admin-panel">
           <div class="admin-table-toolbar">
-            <label class="visually-hidden" for="admin-project-search">Cerca progetto</label>
-            <input id="admin-project-search" type="search" placeholder="Cerca per titolo, categoria o tecnologia" data-admin-project-search>
-            <span class="small-copy muted" data-admin-project-count></span>
+            <label class="visually-hidden" for="admin-message-search">Cerca messaggio</label>
+            <input id="admin-message-search" type="search" placeholder="Cerca per nome, email, oggetto o testo" data-admin-message-search>
+            <span class="small-copy muted" data-admin-message-count></span>
           </div>
 
           <div class="table-wrap">
-            <table class="admin-table">
+            <table class="admin-table admin-messages-table">
               <thead>
                 <tr>
-                  <th>Titolo</th>
-                  <th>Categoria</th>
-                  <th>Anno</th>
-                  <th>In evidenza</th>
+                  <th>Mittente</th>
+                  <th>Oggetto e messaggio</th>
+                  <th>Data</th>
                   <th>Azioni</th>
                 </tr>
               </thead>
-              <tbody data-admin-projects-table>
-                <tr><td colspan="5">Caricamento progetti...</td></tr>
+              <tbody data-admin-messages-table>
+                <tr><td colspan="4">Caricamento messaggi...</td></tr>
               </tbody>
             </table>
           </div>
@@ -105,16 +85,15 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
-        <p class="footer-title">Contenuti sempre aggiornati.</p>
+        <p class="footer-title">Contatti sotto controllo.</p>
         <nav class="footer-links" aria-label="Collegamenti rapidi">
-          <a href="projects.html">Vai ai progetti</a>
-          <a href="admin-skills.html">Gestisci competenze</a>
-          <a href="admin-messages.html">Leggi messaggi</a>
+          <a href="contact.html">Pagina contatti</a>
+          <a href="admin-dashboard.html">Dashboard</a>
         </nav>
       </div>
       <div class="footer-bottom">
         <span>© <span data-current-year></span> Nome Cognome</span>
-        <span>Dashboard protetta da JWT lato server.</span>
+        <span>Messaggi letti solo dall'amministratore autenticato.</span>
       </div>
     </div>
   </footer>

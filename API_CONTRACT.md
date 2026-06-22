@@ -231,6 +231,48 @@ Aggiorna un progetto esistente.
 
 Elimina un progetto esistente.
 
+### GET /api/admin/skills
+
+Restituisce tutte le competenze per la gestione amministrativa.
+
+### GET /api/admin/skills/:id
+
+Restituisce una singola competenza.
+
+### POST /api/admin/skills
+
+Crea una competenza.
+
+Body:
+
+```json
+{
+  "name": "JavaScript",
+  "group_name": "Frontend",
+  "level_value": 85
+}
+```
+
+### PUT /api/admin/skills/:id
+
+Aggiorna una competenza esistente.
+
+### DELETE /api/admin/skills/:id
+
+Elimina una competenza esistente.
+
+### GET /api/admin/messages
+
+Restituisce i messaggi ricevuti dal form contatti, ordinati dal piu' recente.
+
+### GET /api/admin/messages/:id
+
+Restituisce un singolo messaggio.
+
+### DELETE /api/admin/messages/:id
+
+Elimina un messaggio.
+
 ## Status code usati
 
 - `200 OK`: lettura o aggiornamento riuscito.

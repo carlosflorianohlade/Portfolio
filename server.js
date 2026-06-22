@@ -205,6 +205,34 @@ function validateProject(project) {
   return errors;
 }
 
+function normalizeSkillBody(body) {
+  const levelValue = body.level_value === undefined || body.level_value === ""
+    ? Number(body.level)
+    : Number(body.level_value);
+
+  return {
+    name: cleanString(body.name),
+    group_name: cleanString(body.group_name),
+    level_value: levelValue
+  };
+}
+
+function validateSkill(skill) {
+  const errors = [];
+
+  if (skill.name.length < 2 || skill.name.length > 80) {
+    errors.push("Il nome della competenza deve contenere tra 2 e 80 caratteri.");
+  }
+  if (skill.group_name.length < 2 || skill.group_name.length > 80) {
+    errors.push("Il gruppo della competenza deve contenere tra 2 e 80 caratteri.");
+  }
+  if (!Number.isInteger(skill.level_value) || skill.level_value < 0 || skill.level_value > 100) {
+    errors.push("Il livello della competenza deve essere compreso tra 0 e 100.");
+  }
+
+  return errors;
+}
+
 const projectSelectFields = `
   id,
   title,
@@ -223,7 +251,30 @@ const projectSelectFields = `
   updated_at
 `;
 
-app.get(["/admin-dashboard.html", "/admin-project-form.html"], requireAdminPageAuth, (req, res) => {
+const skillSelectFields = `
+  id,
+  name,
+  group_name,
+  level_value,
+  level_value AS level,
+  created_at
+`;
+
+const messageSelectFields = `
+  id,
+  name,
+  email,
+  subject,
+  message,
+  created_at
+`;
+
+app.get([
+  "/admin-dashboard.html",
+  "/admin-project-form.html",
+  "/admin-skills.html",
+  "/admin-messages.html"
+], requireAdminPageAuth, (req, res) => {
   const fileName = req.path.replace(/^\//, "");
   return res.sendFile(path.join(PUBLIC_DIR, fileName));
 });
@@ -272,9 +323,7 @@ app.get("/api/projects/:id", async (req, res) => {
 app.get("/api/skills", async (req, res) => {
   try {
     const [skills] = await pool.execute(
-      `SELECT id, name, group_name, level_value, level_value AS level, created_at
-       FROM skills
-       ORDER BY group_name ASC, level_value DESC, name ASC`
+      `SELECT ${skillSelectFields} FROM skills ORDER BY group_name ASC, level_value DESC, name ASC`
     );
     return sendSuccess(res, { skills });
   } catch {
@@ -533,6 +582,170 @@ app.delete("/api/admin/projects/:id", requireAdminAuth, async (req, res) => {
     return sendSuccess(res, { message: "Progetto eliminato correttamente." });
   } catch {
     return sendError(res, 500, "Errore durante l'eliminazione del progetto.");
+  }
+});
+
+app.get("/api/admin/skills", requireAdminAuth, async (req, res) => {
+  try {
+    const [skills] = await pool.execute(
+      `SELECT ${skillSelectFields} FROM skills ORDER BY group_name ASC, level_value DESC, name ASC`
+    );
+    return sendSuccess(res, { skills });
+  } catch {
+    return sendError(res, 500, "Errore durante il caricamento delle competenze admin.");
+  }
+});
+
+app.get("/api/admin/skills/:id", requireAdminAuth, async (req, res) => {
+  if (!isPositiveInteger(req.params.id)) {
+    return sendError(res, 400, "ID competenza non valido.");
+  }
+
+  try {
+    const [skills] = await pool.execute(
+      `SELECT ${skillSelectFields} FROM skills WHERE id = ? LIMIT 1`,
+      [Number(req.params.id)]
+    );
+
+    if (skills.length === 0) {
+      return sendError(res, 404, "Competenza non trovata.");
+    }
+
+    return sendSuccess(res, { skill: skills[0] });
+  } catch {
+    return sendError(res, 500, "Errore durante il caricamento della competenza.");
+  }
+});
+
+app.post("/api/admin/skills", requireAdminAuth, async (req, res) => {
+  const skill = normalizeSkillBody(req.body);
+  const errors = validateSkill(skill);
+
+  if (errors.length > 0) {
+    return sendError(res, 400, "Dati competenza non validi.", errors);
+  }
+
+  try {
+    const [result] = await pool.execute(
+      `INSERT INTO skills (name, group_name, level_value) VALUES (?, ?, ?)`,
+      [skill.name, skill.group_name, skill.level_value]
+    );
+
+    return sendSuccess(
+      res,
+      { message: "Competenza creata correttamente.", skillId: result.insertId },
+      201
+    );
+  } catch (error) {
+    if (error.code === "ER_DUP_ENTRY") {
+      return sendError(res, 409, "Esiste già una competenza con questo nome nello stesso gruppo.");
+    }
+    return sendError(res, 500, "Errore durante la creazione della competenza.");
+  }
+});
+
+app.put("/api/admin/skills/:id", requireAdminAuth, async (req, res) => {
+  if (!isPositiveInteger(req.params.id)) {
+    return sendError(res, 400, "ID competenza non valido.");
+  }
+
+  const skill = normalizeSkillBody(req.body);
+  const errors = validateSkill(skill);
+
+  if (errors.length > 0) {
+    return sendError(res, 400, "Dati competenza non validi.", errors);
+  }
+
+  try {
+    const [result] = await pool.execute(
+      `UPDATE skills SET name = ?, group_name = ?, level_value = ? WHERE id = ?`,
+      [skill.name, skill.group_name, skill.level_value, Number(req.params.id)]
+    );
+
+    if (result.affectedRows === 0) {
+      return sendError(res, 404, "Competenza non trovata.");
+    }
+
+    return sendSuccess(res, { message: "Competenza aggiornata correttamente." });
+  } catch (error) {
+    if (error.code === "ER_DUP_ENTRY") {
+      return sendError(res, 409, "Esiste già una competenza con questo nome nello stesso gruppo.");
+    }
+    return sendError(res, 500, "Errore durante l'aggiornamento della competenza.");
+  }
+});
+
+app.delete("/api/admin/skills/:id", requireAdminAuth, async (req, res) => {
+  if (!isPositiveInteger(req.params.id)) {
+    return sendError(res, 400, "ID competenza non valido.");
+  }
+
+  try {
+    const [result] = await pool.execute(
+      `DELETE FROM skills WHERE id = ?`,
+      [Number(req.params.id)]
+    );
+
+    if (result.affectedRows === 0) {
+      return sendError(res, 404, "Competenza non trovata.");
+    }
+
+    return sendSuccess(res, { message: "Competenza eliminata correttamente." });
+  } catch {
+    return sendError(res, 500, "Errore durante l'eliminazione della competenza.");
+  }
+});
+
+app.get("/api/admin/messages", requireAdminAuth, async (req, res) => {
+  try {
+    const [messages] = await pool.execute(
+      `SELECT ${messageSelectFields} FROM messages ORDER BY created_at DESC, id DESC`
+    );
+    return sendSuccess(res, { messages });
+  } catch {
+    return sendError(res, 500, "Errore durante il caricamento dei messaggi.");
+  }
+});
+
+app.get("/api/admin/messages/:id", requireAdminAuth, async (req, res) => {
+  if (!isPositiveInteger(req.params.id)) {
+    return sendError(res, 400, "ID messaggio non valido.");
+  }
+
+  try {
+    const [messages] = await pool.execute(
+      `SELECT ${messageSelectFields} FROM messages WHERE id = ? LIMIT 1`,
+      [Number(req.params.id)]
+    );
+
+    if (messages.length === 0) {
+      return sendError(res, 404, "Messaggio non trovato.");
+    }
+
+    return sendSuccess(res, { message: messages[0] });
+  } catch {
+    return sendError(res, 500, "Errore durante il caricamento del messaggio.");
+  }
+});
+
+app.delete("/api/admin/messages/:id", requireAdminAuth, async (req, res) => {
+  if (!isPositiveInteger(req.params.id)) {
+    return sendError(res, 400, "ID messaggio non valido.");
+  }
+
+  try {
+    const [result] = await pool.execute(
+      `DELETE FROM messages WHERE id = ?`,
+      [Number(req.params.id)]
+    );
+
+    if (result.affectedRows === 0) {
+      return sendError(res, 404, "Messaggio non trovato.");
+    }
+
+    return sendSuccess(res, { message: "Messaggio eliminato correttamente." });
+  } catch {
+    return sendError(res, 500, "Errore durante l'eliminazione del messaggio.");
   }
 });
 

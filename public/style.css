@@ -1502,3 +1502,83 @@ h3 {
     max-width: none;
   }
 }
+
+.admin-quicklinks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-quicklink {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-quicklink:hover,
+.admin-quicklink[aria-current="page"] {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  transform: translateY(-0.08rem);
+}
+
+.admin-quicklink strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.admin-quicklink span:last-child {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.admin-grid-two {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.55fr) minmax(0, 1.45fr);
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.panel-title {
+  margin: 0 0 1rem;
+  font-size: 1.45rem;
+}
+
+.compact-admin-form {
+  grid-template-columns: 1fr;
+}
+
+.skill-pill {
+  display: inline-flex;
+  align-items: center;
+  min-width: 4.5rem;
+  justify-content: center;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  color: var(--accent-dark);
+  background: var(--accent-soft);
+  font-weight: 800;
+}
+
+.admin-messages-table {
+  min-width: 58rem;
+}
+
+.message-preview {
+  max-width: 46rem;
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  white-space: pre-wrap;
+}
+
+@media (max-width: 980px) {
+  .admin-quicklinks,
+  .admin-grid-two {
+    grid-template-columns: 1fr;
+  }
+}

@@ -18,6 +18,8 @@ portfolio/
 │   ├── admin-login.html
 │   ├── admin-dashboard.html
 │   ├── admin-project-form.html
+│   ├── admin-skills.html
+│   ├── admin-messages.html
 │   ├── style.css
 │   ├── app.js
 │   └── assets/
@@ -55,6 +57,8 @@ portfolio/
 - JWT firmato lato server e salvato in cookie `HttpOnly`.
 - Dashboard protetta per visualizzare, cercare, modificare ed eliminare progetti.
 - Form protetto per creare o modificare progetti.
+- Pagina protetta per creare, modificare ed eliminare competenze.
+- Pagina protetta per leggere ed eliminare i messaggi ricevuti dal form contatti.
 - Rotte admin protette con middleware `requireAdminAuth`.
 
 ## Installazione
@@ -161,6 +165,16 @@ GET    /api/admin/projects/:id
 POST   /api/admin/projects
 PUT    /api/admin/projects/:id
 DELETE /api/admin/projects/:id
+
+GET    /api/admin/skills
+GET    /api/admin/skills/:id
+POST   /api/admin/skills
+PUT    /api/admin/skills/:id
+DELETE /api/admin/skills/:id
+
+GET    /api/admin/messages
+GET    /api/admin/messages/:id
+DELETE /api/admin/messages/:id
 ```
 
 La documentazione dettagliata e' in `API_CONTRACT.md`.
@@ -180,7 +194,9 @@ Poi prova manualmente:
 4. Form contatti.
 5. Login admin.
 6. Creazione, modifica ed eliminazione progetto.
-7. Logout admin.
+7. Creazione, modifica ed eliminazione competenza.
+8. Invio messaggio dal form contatti, lettura ed eliminazione da area admin.
+9. Logout admin.
 
 ## Sicurezza implementata
 

@@ -86,3 +86,8 @@
 - [x] `README.md`
 - [x] `API_CONTRACT.md`
 - [x] `Proposta_Progettuale_Portfolio_Dinamico.pdf`
+
+
+## Estensione area admin
+
+L'area admin permette anche di gestire le competenze (`skills`) e consultare/eliminare i messaggi (`messages`) ricevuti dal form contatti. Tutte le operazioni sono protette dal middleware JWT.

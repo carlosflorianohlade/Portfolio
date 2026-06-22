@@ -1,0 +1,58 @@
+# Dipendenze Node.js
+
+node_modules/
+
+# File ambiente locali / segreti
+
+.env
+.env.*
+!.env.example
+
+# Log
+
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Cache e output npm
+
+.npm/
+.npm-cache/
+
+# File temporanei sistema operativo
+
+.DS_Store
+Thumbs.db
+
+# Cartelle IDE/editor
+
+.vscode/
+.idea/
+
+# File temporanei
+
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Build/output eventuali
+
+dist/
+build/
+coverage/
+
+# File database locali o dump non richiesti
+
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+*.dump
+
+# File generati/locali del progetto
+
+uploads/

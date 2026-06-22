@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gestione amministrativa delle competenze del portfolio.">
+  <title>Gestione competenze | Portfolio</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body data-page="admin-skills">
+  <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+
+  <header class="site-header">
+    <nav class="navbar" aria-label="Navigazione principale">
+      <a class="brand" href="index.html" aria-label="Nome Cognome, pagina iniziale">
+        <span class="brand-mark" aria-hidden="true">NC</span>
+        <span>Nome Cognome</span>
+      </a>
+
+      <ul class="nav-list" data-nav-list data-open="false" id="menu-principale">
+        <li><a href="index.html" data-nav="home">Home</a></li>
+        <li><a href="about.html" data-nav="about">Profilo</a></li>
+        <li><a href="projects.html" data-nav="projects">Progetti</a></li>
+        <li><a href="contact.html" data-nav="contact">Contatti</a></li>
+        <li><a href="admin-login.html" data-nav="admin">Area admin</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Attiva il tema scuro"></button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="menu-principale">
+          <span class="visually-hidden">Apri il menu</span>
+          <span class="nav-toggle-lines" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="contenuto">
+    <section class="section admin-section" aria-labelledby="titolo-competenze-admin">
+      <div class="container">
+        <div class="admin-header">
+          <div>
+            <span class="eyebrow">Dashboard</span>
+            <h1 id="titolo-competenze-admin">Gestione competenze</h1>
+            <p class="lead">Da qui l'amministratore può creare, modificare ed eliminare le competenze visualizzate nella pagina Profilo.</p>
+          </div>
+          <div class="admin-header-actions">
+            <a class="button button-secondary" href="admin-dashboard.html">Progetti</a>
+            <a class="button button-secondary" href="admin-messages.html">Messaggi</a>
+            <button class="button button-secondary" type="button" data-admin-logout>Esci</button>
+          </div>
+        </div>
+
+        <p class="form-status" data-admin-skills-status role="status" aria-live="polite"></p>
+
+        <div class="admin-grid-two">
+          <div class="admin-panel">
+            <h2 class="panel-title" data-skill-form-title>Nuova competenza</h2>
+            <form class="admin-form compact-admin-form" data-admin-skill-form novalidate>
+              <input type="hidden" name="id">
+
+              <div class="field field-wide">
+                <label for="skill-name">Nome competenza</label>
+                <input id="skill-name" name="name" type="text" maxlength="80" placeholder="Es. JavaScript" required>
+                <p class="field-error" data-error-for="name"></p>
+              </div>
+
+              <div class="field field-wide">
+                <label for="skill-group">Gruppo</label>
+                <input id="skill-group" name="group_name" type="text" maxlength="80" placeholder="Frontend, Backend, Database..." required>
+                <p class="field-error" data-error-for="group_name"></p>
+              </div>
+
+              <div class="field field-wide">
+                <label for="skill-level">Livello indicativo</label>
+                <input id="skill-level" name="level_value" type="number" min="0" max="100" step="1" required>
+                <p class="hint">Valore numerico da 0 a 100 usato per la barra nella pagina Profilo.</p>
+                <p class="field-error" data-error-for="level_value"></p>
+              </div>
+
+              <div class="form-actions field-wide">
+                <button class="button button-primary" type="submit" data-skill-submit>Salva competenza</button>
+                <button class="button button-secondary" type="button" data-skill-reset>Annulla modifica</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="admin-panel">
+            <div class="admin-table-toolbar">
+              <label class="visually-hidden" for="admin-skill-search">Cerca competenza</label>
+              <input id="admin-skill-search" type="search" placeholder="Cerca competenza o gruppo" data-admin-skill-search>
+              <span class="small-copy muted" data-admin-skill-count></span>
+            </div>
+
+            <div class="table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Competenza</th>
+                    <th>Gruppo</th>
+                    <th>Livello</th>
+                    <th>Azioni</th>
+                  </tr>
+                </thead>
+                <tbody data-admin-skills-table>
+                  <tr><td colspan="4">Caricamento competenze...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <p class="footer-title">Competenze aggiornabili.</p>
+        <nav class="footer-links" aria-label="Collegamenti rapidi">
+          <a href="about.html">Profilo pubblico</a>
+          <a href="admin-dashboard.html">Dashboard</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-current-year></span> Nome Cognome</span>
+        <span>Operazioni protette da autenticazione JWT.</span>
+      </div>
+    </div>
+  </footer>
+  <div class="toast-region" data-toast-region aria-live="polite"></div>
+</body>
+</html>

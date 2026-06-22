@@ -136,6 +136,16 @@ GET    /api/admin/projects/:id
 POST   /api/admin/projects
 PUT    /api/admin/projects/:id
 DELETE /api/admin/projects/:id
+
+GET    /api/admin/skills
+GET    /api/admin/skills/:id
+POST   /api/admin/skills
+PUT    /api/admin/skills/:id
+DELETE /api/admin/skills/:id
+
+GET    /api/admin/messages
+GET    /api/admin/messages/:id
+DELETE /api/admin/messages/:id
 ```
 
 Tutte le rotte admin tranne il login sono protette dal middleware `requireAdminAuth`.
