@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#e5d8e6"/>
+  <rect x="70" y="65" width="1060" height="630" rx="42" fill="#201d25"/>
+  <circle cx="930" cy="190" r="165" fill="#d86d55" opacity=".92"/>
+  <circle cx="930" cy="190" r="95" fill="#efb09b" opacity=".9"/>
+  <text x="130" y="190" font-family="Georgia,serif" font-size="88" fill="#fff8f3">Pulse</text>
+  <text x="135" y="235" font-family="Arial,sans-serif" font-size="20" letter-spacing="5" fill="#bfb5c3">EVENTS NEAR YOU</text>
+  <g>
+    <rect x="130" y="335" width="280" height="245" rx="28" fill="#35303b"/>
+    <rect x="460" y="335" width="280" height="245" rx="28" fill="#35303b"/>
+    <rect x="790" y="335" width="280" height="245" rx="28" fill="#35303b"/>
+  </g>
+  <g fill="#e98b6d"><rect x="165" y="380" width="80" height="16" rx="8"/><rect x="495" y="380" width="80" height="16" rx="8"/><rect x="825" y="380" width="80" height="16" rx="8"/></g>
+  <g fill="#fff8f3" opacity=".75"><rect x="165" y="430" width="185" height="18" rx="9"/><rect x="495" y="430" width="185" height="18" rx="9"/><rect x="825" y="430" width="185" height="18" rx="9"/></g>
+</svg>

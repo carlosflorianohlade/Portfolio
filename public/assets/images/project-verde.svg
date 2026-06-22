@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#dbe3d6"/>
+  <path d="M0 500 C220 350 360 520 560 380 S900 300 1200 430 V760 H0Z" fill="#799078"/>
+  <path d="M0 590 C250 470 430 620 670 500 S980 430 1200 550 V760 H0Z" fill="#415b49"/>
+  <circle cx="925" cy="185" r="95" fill="#f4dfac"/>
+  <rect x="85" y="70" width="1030" height="620" rx="42" fill="none" stroke="#fffdf8" stroke-width="3" opacity=".65"/>
+  <text x="115" y="155" font-family="Georgia,serif" font-size="72" fill="#24332a">Verde</text>
+  <text x="118" y="200" font-family="Arial,sans-serif" font-size="18" letter-spacing="4" fill="#415b49">SLOW TRAVEL JOURNAL</text>
+  <rect x="120" y="545" width="245" height="56" rx="28" fill="#fffdf8"/>
+</svg>

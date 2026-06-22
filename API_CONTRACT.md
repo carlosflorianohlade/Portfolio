@@ -1,0 +1,254 @@
+# API Contract - Portfolio personale dinamico
+
+Base URL in locale:
+
+```text
+http://localhost:3000
+```
+
+Tutte le API restituiscono JSON con campo `success`.
+
+## Convenzioni generali
+
+Risposta positiva:
+
+```json
+{
+  "success": true
+}
+```
+
+Risposta di errore:
+
+```json
+{
+  "success": false,
+  "message": "Descrizione dell'errore"
+}
+```
+
+Quando l'errore riguarda piu' campi, puo' essere presente anche `details`.
+
+## API pubbliche
+
+### GET /api/health
+
+Verifica che server e database siano raggiungibili.
+
+Risposta positiva:
+
+```json
+{
+  "success": true,
+  "message": "Server e database operativi"
+}
+```
+
+### GET /api/projects
+
+Restituisce tutti i progetti, ordinati dando priorita' ai progetti in evidenza.
+
+```json
+{
+  "success": true,
+  "projects": [
+    {
+      "id": 1,
+      "title": "Portfolio personale dinamico",
+      "short_description": "Portfolio responsive con pagine dinamiche, API REST, Node.js e MySQL.",
+      "description": "Descrizione completa...",
+      "category": "Web",
+      "technologies": "HTML, CSS, JavaScript, Node.js, Express, MySQL, JWT",
+      "image_url": "assets/images/project-portfolio.svg",
+      "project_url": "#",
+      "repository_url": "#",
+      "year": 2026,
+      "featured": 1,
+      "challenge": "Sfida progettuale...",
+      "solution": "Soluzione adottata..."
+    }
+  ]
+}
+```
+
+### GET /api/projects/:id
+
+Restituisce un singolo progetto.
+
+Errori principali:
+
+- `400` se l'ID non e' valido.
+- `404` se il progetto non esiste.
+
+### GET /api/skills
+
+Restituisce le competenze tecniche.
+
+```json
+{
+  "success": true,
+  "skills": [
+    {
+      "id": 1,
+      "name": "HTML semantico",
+      "group_name": "Frontend",
+      "level_value": 90,
+      "level": 90
+    }
+  ]
+}
+```
+
+Il campo `level` e' un alias di `level_value`, mantenuto per compatibilita' con il frontend.
+
+### POST /api/messages
+
+Salva un messaggio inviato dal form contatti.
+
+Body:
+
+```json
+{
+  "name": "Mario Rossi",
+  "email": "mario@example.com",
+  "subject": "Collaborazione",
+  "message": "Vorrei contattarti per un progetto web."
+}
+```
+
+Validazioni principali:
+
+- `name`: 2-120 caratteri;
+- `email`: formato email valido, massimo 160 caratteri;
+- `subject`: 3-160 caratteri;
+- `message`: 20-5000 caratteri.
+
+Risposta positiva:
+
+```json
+{
+  "success": true,
+  "message": "Messaggio inviato correttamente.",
+  "messageId": 1
+}
+```
+
+## API admin
+
+Il login crea un cookie `admin_token` con:
+
+```text
+HttpOnly
+SameSite=Lax
+Secure solo in produzione
+```
+
+Il JWT non viene salvato in `localStorage` e non viene passato in query string.
+
+### POST /api/admin/login
+
+Body:
+
+```json
+{
+  "email": "admin@example.com",
+  "password": "Admin123!"
+}
+```
+
+Flusso:
+
+1. Il backend cerca l'admin nel database.
+2. Verifica password con salt + hash PBKDF2.
+3. Crea un JWT firmato con `JWT_SECRET`.
+4. Invia il token in cookie `HttpOnly`.
+
+Payload JWT:
+
+```json
+{
+  "adminId": 1,
+  "email": "admin@example.com",
+  "role": "admin"
+}
+```
+
+### GET /api/admin/me
+
+Richiede cookie JWT valido.
+
+```json
+{
+  "success": true,
+  "admin": {
+    "adminId": 1,
+    "email": "admin@example.com",
+    "role": "admin"
+  }
+}
+```
+
+### POST /api/admin/logout
+
+Cancella il cookie di autenticazione.
+
+### GET /api/admin/projects
+
+Restituisce tutti i progetti per la dashboard admin.
+
+### GET /api/admin/projects/:id
+
+Restituisce un singolo progetto per precompilare il form admin di modifica.
+
+### POST /api/admin/projects
+
+Crea un progetto.
+
+Campi accettati:
+
+```text
+title
+short_description
+description
+category
+technologies
+image_url
+project_url
+repository_url
+year
+featured
+challenge
+solution
+```
+
+`technologies` puo' arrivare come stringa o come array; il backend lo normalizza in stringa separata da virgole.
+
+### PUT /api/admin/projects/:id
+
+Aggiorna un progetto esistente.
+
+### DELETE /api/admin/projects/:id
+
+Elimina un progetto esistente.
+
+## Status code usati
+
+- `200 OK`: lettura o aggiornamento riuscito.
+- `201 Created`: creazione riuscita.
+- `400 Bad Request`: input non valido.
+- `401 Unauthorized`: login richiesto, credenziali errate o token scaduto.
+- `403 Forbidden`: ruolo non autorizzato.
+- `404 Not Found`: risorsa non trovata.
+- `409 Conflict`: duplicato, per esempio titolo progetto gia' presente.
+- `500 Internal Server Error`: errore server o database.
+
+## Pagine admin protette
+
+Le pagine:
+
+```text
+/admin-dashboard.html
+/admin-project-form.html
+```
+
+sono protette anche lato server: se il cookie JWT manca o non e' valido, Express reindirizza a `admin-login.html`.

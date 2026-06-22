@@ -1,0 +1,28 @@
+{
+  "name": "portfolio-personale",
+  "version": "1.0.0",
+  "description": "Portfolio personale dinamico con frontend statico, backend Node.js, MySQL e autenticazione admin JWT.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "create-admin": "node scripts/create-admin.js",
+    "check": "node --check server.js && node --check db.js && node --check public/app.js && node --check scripts/create-admin.js"
+  },
+  "keywords": [
+    "portfolio",
+    "nodejs",
+    "mysql",
+    "jwt",
+    "programmazione-web-mobile"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0"
+  }
+}

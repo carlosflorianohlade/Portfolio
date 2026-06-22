@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Modulo amministratore per creare o modificare un progetto del portfolio.">
+  <title>Modifica progetto | Portfolio</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body data-page="admin-project-form">
+  <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+
+  <header class="site-header">
+    <nav class="navbar" aria-label="Navigazione principale">
+      <a class="brand" href="index.html" aria-label="Nome Cognome, pagina iniziale">
+        <span class="brand-mark" aria-hidden="true">NC</span>
+        <span>Nome Cognome</span>
+      </a>
+
+      <ul class="nav-list" data-nav-list data-open="false" id="menu-principale">
+        <li><a href="index.html" data-nav="home">Home</a></li>
+        <li><a href="about.html" data-nav="about">Profilo</a></li>
+        <li><a href="projects.html" data-nav="projects">Progetti</a></li>
+        <li><a href="contact.html" data-nav="contact">Contatti</a></li>
+        <li><a href="admin-login.html" data-nav="admin">Area admin</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Attiva il tema scuro"></button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="menu-principale">
+          <span class="visually-hidden">Apri il menu</span>
+          <span class="nav-toggle-lines" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="contenuto">
+    <section class="section admin-section" aria-labelledby="titolo-form-progetto">
+      <div class="container narrow-container">
+        <div class="admin-header">
+          <div>
+            <span class="eyebrow">Editor progetto</span>
+            <h1 id="titolo-form-progetto" data-project-form-title>Nuovo progetto</h1>
+            <p class="lead">Compila i campi principali che verranno salvati nel database e mostrati nel portfolio pubblico.</p>
+          </div>
+          <a class="button button-secondary" href="admin-dashboard.html">Torna alla dashboard</a>
+        </div>
+
+        <form class="admin-form project-editor" data-admin-project-form novalidate>
+          <div class="field">
+            <label for="project-title">Titolo</label>
+            <input id="project-title" name="title" type="text" required minlength="2">
+            <p class="field-error" data-error-for="title"></p>
+          </div>
+
+          <div class="field">
+            <label for="project-category">Categoria</label>
+            <input id="project-category" name="category" type="text" placeholder="Web app, Sito web, Piattaforma" required>
+            <p class="field-error" data-error-for="category"></p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="project-short-description">Descrizione breve</label>
+            <textarea id="project-short-description" name="short_description" rows="3" required minlength="10"></textarea>
+            <p class="field-error" data-error-for="short_description"></p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="project-description">Descrizione completa</label>
+            <textarea id="project-description" name="description" rows="6" required minlength="20"></textarea>
+            <p class="field-error" data-error-for="description"></p>
+          </div>
+
+          <div class="field">
+            <label for="project-technologies">Tecnologie</label>
+            <input id="project-technologies" name="technologies" type="text" placeholder="HTML, CSS, JavaScript, MySQL" required>
+            <p class="hint">Inserisci i valori separati da virgola.</p>
+            <p class="field-error" data-error-for="technologies"></p>
+          </div>
+
+          <div class="field">
+            <label for="project-year">Anno</label>
+            <input id="project-year" name="year" type="number" min="2000" max="2100" required>
+            <p class="field-error" data-error-for="year"></p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="project-image-url">URL immagine</label>
+            <input id="project-image-url" name="image_url" type="text" placeholder="assets/images/project-atlas.svg">
+            <p class="field-error" data-error-for="image_url"></p>
+          </div>
+
+          <div class="field">
+            <label for="project-repository-url">Repository</label>
+            <input id="project-repository-url" name="repository_url" type="url" placeholder="https://github.com/esempio/progetto">
+            <p class="field-error" data-error-for="repository_url"></p>
+          </div>
+
+          <div class="field">
+            <label for="project-url">Demo / sito</label>
+            <input id="project-url" name="project_url" type="url" placeholder="https://example.com">
+            <p class="field-error" data-error-for="project_url"></p>
+          </div>
+
+          <div class="field field-wide">
+            <label for="project-challenge">Sfida</label>
+            <textarea id="project-challenge" name="challenge" rows="3"></textarea>
+          </div>
+
+          <div class="field field-wide">
+            <label for="project-solution">Soluzione</label>
+            <textarea id="project-solution" name="solution" rows="3"></textarea>
+          </div>
+
+          <div class="field field-wide checkbox-field">
+            <input id="project-featured" name="featured" type="checkbox" value="1">
+            <label for="project-featured">Mostra il progetto tra quelli in evidenza</label>
+          </div>
+
+          <div class="form-actions field-wide">
+            <button class="button button-primary" type="submit" data-project-submit>Salva progetto</button>
+            <a class="button button-secondary" href="admin-dashboard.html">Annulla</a>
+          </div>
+
+          <p class="form-status field-wide" data-admin-project-status role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <p class="footer-title">Editor contenuti.</p>
+        <nav class="footer-links" aria-label="Collegamenti rapidi">
+          <a href="admin-dashboard.html">Dashboard</a>
+          <a href="projects.html">Portfolio pubblico</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-current-year></span> Nome Cognome</span>
+        <span>Creazione e modifica protette da autenticazione.</span>
+      </div>
+    </div>
+  </footer>
+  <div class="toast-region" data-toast-region aria-live="polite"></div>
+</body>
+</html>
