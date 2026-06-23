@@ -57,7 +57,7 @@ async function getSkills() {
 function normalizeProjects(projects) {
   return projects.map((project) => ({
     ...project,
-    image_url: project.image_url || "assets/images/project-portfolio.svg",
+    image_url: project.image_url || "assets/images/project-distributed-system.svg",
     technologies: Array.isArray(project.technologies)
       ? project.technologies
       : String(project.technologies || "")
