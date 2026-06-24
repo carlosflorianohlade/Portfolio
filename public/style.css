@@ -715,11 +715,12 @@ h3 {
 
 .sticky-note dl {
   display: grid;
-  gap: 1rem;
-  margin: 0;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  margin: 0 0 1.5rem 0;
 }
 
-.sticky-note div {
+.sticky-note > div {
   display: grid;
   grid-template-columns: 6rem 1fr;
   gap: 0.8rem;
