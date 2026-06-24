@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
+
 <body data-page="admin-dashboard">
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 
@@ -44,7 +46,8 @@
           <div>
             <span class="eyebrow">Dashboard</span>
             <h1 id="titolo-dashboard-admin">Area amministratore</h1>
-            <p class="lead">Da qui l'amministratore può gestire progetti, competenze e messaggi ricevuti dal form contatti.</p>
+            <p class="lead">Da qui l'amministratore può gestire progetti, competenze e messaggi ricevuti dal form
+              contatti.</p>
           </div>
           <div class="admin-header-actions">
             <a class="button button-primary" href="admin-project-form.html">Nuovo progetto</a>
@@ -77,7 +80,8 @@
         <div class="admin-panel">
           <div class="admin-table-toolbar">
             <label class="visually-hidden" for="admin-project-search">Cerca progetto</label>
-            <input id="admin-project-search" type="search" placeholder="Cerca per titolo, categoria o tecnologia" data-admin-project-search>
+            <input id="admin-project-search" type="search" placeholder="Cerca per titolo, categoria o tecnologia"
+              data-admin-project-search>
             <span class="small-copy muted" data-admin-project-count></span>
           </div>
 
@@ -93,7 +97,9 @@
                 </tr>
               </thead>
               <tbody data-admin-projects-table>
-                <tr><td colspan="5">Caricamento progetti...</td></tr>
+                <tr>
+                  <td colspan="5">Caricamento progetti...</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -120,4 +126,5 @@
   </footer>
   <div class="toast-region" data-toast-region aria-live="polite"></div>
 </body>
+
 </html>

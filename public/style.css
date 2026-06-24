@@ -89,9 +89,9 @@ a {
   text-underline-offset: 0.2em;
 }
 
-a:visited {
+/* a:visited {
   color: inherit;
-}
+} */
 
 p {
   margin: 0 0 1rem;
@@ -132,6 +132,7 @@ h3 {
   outline-offset: 0.2rem;
 }
 
+
 .skip-link {
   position: fixed;
   top: 0.75rem;
@@ -143,6 +144,7 @@ h3 {
   color: var(--surface);
   background: var(--text);
   transition: transform 0.2s ease;
+  text-decoration: none;
 }
 
 .skip-link:focus {
@@ -1519,6 +1521,7 @@ h3 {
   border-radius: var(--radius-md);
   background: var(--surface);
   box-shadow: var(--shadow-soft);
+  text-decoration: none;
 }
 
 .admin-quicklink:hover,
