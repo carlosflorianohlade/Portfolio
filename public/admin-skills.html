@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,14 +10,15 @@
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
+
 <body data-page="admin-skills">
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 
   <header class="site-header">
     <nav class="navbar" aria-label="Navigazione principale">
-      <a class="brand" href="index.html" aria-label="Nome Cognome, pagina iniziale">
-        <span class="brand-mark" aria-hidden="true">NC</span>
-        <span>Nome Cognome</span>
+      <a class="brand" href="index.html" aria-label="Carlos Floriano Hlade, pagina iniziale">
+        <span class="brand-mark" aria-hidden="true">CH</span>
+        <span>Carlos Floriano Hlade</span>
       </a>
 
       <ul class="nav-list" data-nav-list data-open="false" id="menu-principale">
@@ -44,7 +46,8 @@
           <div>
             <span class="eyebrow">Dashboard</span>
             <h1 id="titolo-competenze-admin">Gestione competenze</h1>
-            <p class="lead">Da qui l'amministratore può creare, modificare ed eliminare le competenze visualizzate nella pagina Profilo.</p>
+            <p class="lead">Da qui l'amministratore può creare, modificare ed eliminare le competenze visualizzate nella
+              pagina Profilo.</p>
           </div>
           <div class="admin-header-actions">
             <a class="button button-secondary" href="admin-dashboard.html">Progetti</a>
@@ -69,7 +72,8 @@
 
               <div class="field field-wide">
                 <label for="skill-group">Gruppo</label>
-                <input id="skill-group" name="group_name" type="text" maxlength="80" placeholder="Frontend, Backend, Database..." required>
+                <input id="skill-group" name="group_name" type="text" maxlength="80"
+                  placeholder="Frontend, Backend, Database..." required>
                 <p class="field-error" data-error-for="group_name"></p>
               </div>
 
@@ -90,7 +94,8 @@
           <div class="admin-panel">
             <div class="admin-table-toolbar">
               <label class="visually-hidden" for="admin-skill-search">Cerca competenza</label>
-              <input id="admin-skill-search" type="search" placeholder="Cerca competenza o gruppo" data-admin-skill-search>
+              <input id="admin-skill-search" type="search" placeholder="Cerca competenza o gruppo"
+                data-admin-skill-search>
               <span class="small-copy muted" data-admin-skill-count></span>
             </div>
 
@@ -105,7 +110,9 @@
                   </tr>
                 </thead>
                 <tbody data-admin-skills-table>
-                  <tr><td colspan="4">Caricamento competenze...</td></tr>
+                  <tr>
+                    <td colspan="4">Caricamento competenze...</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -125,11 +132,12 @@
         </nav>
       </div>
       <div class="footer-bottom">
-        <span>© <span data-current-year></span> Nome Cognome</span>
+        <span>© <span data-current-year></span> Carlos Floriano Hlade</span>
         <span>Operazioni protette da autenticazione JWT.</span>
       </div>
     </div>
   </footer>
   <div class="toast-region" data-toast-region aria-live="polite"></div>
 </body>
+
 </html>
