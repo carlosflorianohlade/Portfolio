@@ -217,8 +217,10 @@ h3 {
   z-index: 50;
   min-height: var(--header-height);
   border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  background: rgba(247, 243, 236, 0.88);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .navbar {
@@ -546,6 +548,7 @@ h3 {
 }
 
 .project-card {
+  position: relative;
   grid-column: span 6;
   display: grid;
   min-width: 0;
@@ -631,10 +634,6 @@ h3 {
   position: absolute;
   inset: 0;
   content: "";
-}
-
-.project-card {
-  position: relative;
 }
 
 .project-card p {
