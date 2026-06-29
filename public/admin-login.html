@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,14 +10,15 @@
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
+
 <body data-page="admin-login">
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 
   <header class="site-header">
     <nav class="navbar" aria-label="Navigazione principale">
-      <a class="brand" href="index.html" aria-label="Nome Cognome, pagina iniziale">
-        <span class="brand-mark" aria-hidden="true">NC</span>
-        <span>Nome Cognome</span>
+      <a class="brand" href="index.html" aria-label="Carlos Floriano Hlade, pagina iniziale">
+        <span class="brand-mark" aria-hidden="true">CH</span>
+        <span>Carlos Floriano Hlade</span>
       </a>
 
       <ul class="nav-list" data-nav-list data-open="false" id="menu-principale">
@@ -43,20 +45,22 @@
         <div class="auth-copy">
           <span class="eyebrow">Area riservata</span>
           <h1 id="titolo-login-admin">Accesso amministratore</h1>
-          <p class="lead">Questa pagina permette al solo amministratore del portfolio di accedere alla gestione dei progetti.</p>
-          <p>L'autenticazione sarà basata su JWT: il server verificherà le credenziali e salverà il token in un cookie sicuro e HttpOnly.</p>
+          <p class="lead">Questa pagina permette al solo amministratore del portfolio di accedere alla gestione dei
+            progetti.</p>
         </div>
 
         <form class="admin-form auth-card" data-admin-login-form novalidate>
           <div class="field">
             <label for="admin-email">Email</label>
-            <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="admin@example.com" required>
+            <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="admin@example.com"
+              required>
             <p class="field-error" data-error-for="email"></p>
           </div>
 
           <div class="field">
             <label for="admin-password">Password</label>
-            <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required minlength="8">
+            <input id="admin-password" name="password" type="password" autocomplete="current-password"
+              placeholder="••••••••" required minlength="8">
             <p class="field-error" data-error-for="password"></p>
           </div>
 
@@ -81,11 +85,12 @@
         </nav>
       </div>
       <div class="footer-bottom">
-        <span>© <span data-current-year></span> Nome Cognome</span>
+        <span>© <span data-current-year></span> Carlos Floriano Hlade</span>
         <span>Area admin protetta con autenticazione JWT.</span>
       </div>
     </div>
   </footer>
   <div class="toast-region" data-toast-region aria-live="polite"></div>
 </body>
+
 </html>
