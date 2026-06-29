@@ -1,6 +1,6 @@
 -- Schema MySQL per il progetto "Portfolio personale dinamico".
 -- Per una reinstallazione completamente pulita si puo' scommentare la riga seguente.
--- DROP DATABASE IF EXISTS portfolio_db;
+DROP DATABASE IF EXISTS portfolio_db;
 
 CREATE DATABASE IF NOT EXISTS portfolio_db
   CHARACTER SET utf8mb4

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,14 +10,15 @@
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
+
 <body data-page="admin-project-form">
   <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 
   <header class="site-header">
     <nav class="navbar" aria-label="Navigazione principale">
-      <a class="brand" href="index.html" aria-label="Nome Cognome, pagina iniziale">
-        <span class="brand-mark" aria-hidden="true">NC</span>
-        <span>Nome Cognome</span>
+      <a class="brand" href="index.html" aria-label="Carlos Floriano Hlade, pagina iniziale">
+        <span class="brand-mark" aria-hidden="true">CH</span>
+        <span>Carlos Floriano Hlade</span>
       </a>
 
       <ul class="nav-list" data-nav-list data-open="false" id="menu-principale">
@@ -44,7 +46,8 @@
           <div>
             <span class="eyebrow">Editor progetto</span>
             <h1 id="titolo-form-progetto" data-project-form-title>Nuovo progetto</h1>
-            <p class="lead">Compila i campi principali che verranno salvati nel database e mostrati nel portfolio pubblico.</p>
+            <p class="lead">Compila i campi principali che verranno salvati nel database e mostrati nel portfolio
+              pubblico.</p>
           </div>
           <a class="button button-secondary" href="admin-dashboard.html">Torna alla dashboard</a>
         </div>
@@ -58,13 +61,15 @@
 
           <div class="field">
             <label for="project-category">Categoria</label>
-            <input id="project-category" name="category" type="text" placeholder="Web app, Sito web, Piattaforma" required>
+            <input id="project-category" name="category" type="text" placeholder="Backend, Full Stack, Web App, AI"
+              required>
             <p class="field-error" data-error-for="category"></p>
           </div>
 
           <div class="field field-wide">
             <label for="project-short-description">Descrizione breve</label>
-            <textarea id="project-short-description" name="short_description" rows="3" required minlength="10"></textarea>
+            <textarea id="project-short-description" name="short_description" rows="3" required
+              minlength="10"></textarea>
             <p class="field-error" data-error-for="short_description"></p>
           </div>
 
@@ -76,14 +81,15 @@
 
           <div class="field">
             <label for="project-technologies">Tecnologie</label>
-            <input id="project-technologies" name="technologies" type="text" placeholder="HTML, CSS, JavaScript, MySQL" required>
+            <input id="project-technologies" name="technologies" type="text"
+              placeholder="HTML, Python, JavaScript, MySQL" required>
             <p class="hint">Inserisci i valori separati da virgola.</p>
             <p class="field-error" data-error-for="technologies"></p>
           </div>
 
           <div class="field">
             <label for="project-year">Anno</label>
-            <input id="project-year" name="year" type="number" min="2000" max="2100" required>
+            <input id="project-year" name="year" type="number" min="2000" max="2027" required>
             <p class="field-error" data-error-for="year"></p>
           </div>
 
@@ -95,7 +101,8 @@
 
           <div class="field">
             <label for="project-repository-url">Repository</label>
-            <input id="project-repository-url" name="repository_url" type="url" placeholder="https://github.com/esempio/progetto">
+            <input id="project-repository-url" name="repository_url" type="url"
+              placeholder="https://github.com/esempio/progetto">
             <p class="field-error" data-error-for="repository_url"></p>
           </div>
 
@@ -141,11 +148,12 @@
         </nav>
       </div>
       <div class="footer-bottom">
-        <span>© <span data-current-year></span> Nome Cognome</span>
+        <span>© <span data-current-year></span> Carlos Floriano Hlade</span>
         <span>Creazione e modifica protette da autenticazione.</span>
       </div>
     </div>
   </footer>
   <div class="toast-region" data-toast-region aria-live="polite"></div>
 </body>
+
 </html>
