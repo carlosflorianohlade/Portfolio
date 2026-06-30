@@ -567,11 +567,11 @@ h3 {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.project-card:nth-child(3n + 1) {
+.project-card-wide {
   grid-column: span 7;
 }
 
-.project-card:nth-child(3n + 2) {
+.project-card-narrow {
   grid-column: span 5;
 }
 
@@ -1245,8 +1245,8 @@ h3 {
   }
 
   .project-card,
-  .project-card:nth-child(3n + 1),
-  .project-card:nth-child(3n + 2) {
+  .project-card-wide,
+  .project-card-narrow {
     grid-column: 1 / -1;
   }
 

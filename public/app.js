@@ -16,12 +16,12 @@ function escapeHtml(value = "") {
 async function fetchJson(url, options = {}) {
   const response = await fetch(url, {
     credentials: "same-origin",
+    ...options,
     headers: {
       Accept: "application/json",
       ...(options.body ? { "Content-Type": "application/json" } : {}),
       ...options.headers
-    },
-    ...options
+    }
   });
 
   let payload = null;
@@ -149,8 +149,11 @@ function projectCardTemplate(project, index) {
     .map((technology) => `<span class="tag">${escapeHtml(technology)}</span>`)
     .join("");
 
+  const mod = index % 3;
+  const sizeClass = mod === 0 ? " project-card-wide" : mod === 1 ? " project-card-narrow" : "";
+
   return `
-    <article class="project-card">
+    <article class="project-card${sizeClass}">
       <div class="project-visual">
         <img src="${escapeHtml(project.image_url)}" alt="Anteprima grafica del progetto ${escapeHtml(project.title)}" loading="lazy">
       </div>
@@ -442,10 +445,15 @@ function validateContactForm(values) {
   const errors = {};
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (values.name.length < 2) errors.name = "Inserisci almeno 2 caratteri.";
-  if (!emailPattern.test(values.email)) errors.email = "Inserisci un indirizzo email valido.";
-  if (values.subject.length < 3) errors.subject = "Inserisci un oggetto più descrittivo.";
-  if (values.message.length < 20) errors.message = "Il messaggio deve contenere almeno 20 caratteri.";
+  const name = values.name || "";
+  const email = values.email || "";
+  const subject = values.subject || "";
+  const message = values.message || "";
+
+  if (name.length < 2) errors.name = "Inserisci almeno 2 caratteri.";
+  if (!emailPattern.test(email)) errors.email = "Inserisci un indirizzo email valido.";
+  if (subject.length < 3) errors.subject = "Inserisci un oggetto più descrittivo.";
+  if (message.length < 20) errors.message = "Il messaggio deve contenere almeno 20 caratteri.";
 
   return errors;
 }
@@ -568,11 +576,17 @@ function validateAdminLogin(values) {
 
 function validateProjectForm(values) {
   const errors = {};
-  if (values.title.length < 2) errors.title = "Inserisci un titolo valido.";
-  if (values.category.length < 2) errors.category = "Inserisci una categoria.";
-  if (values.short_description.length < 10) errors.short_description = "La descrizione breve deve contenere almeno 10 caratteri.";
-  if (values.description.length < 20) errors.description = "La descrizione completa deve contenere almeno 20 caratteri.";
-  if (!values.technologies.length) errors.technologies = "Inserisci almeno una tecnologia.";
+  const title = values.title || "";
+  const category = values.category || "";
+  const short_description = values.short_description || "";
+  const description = values.description || "";
+  const technologies = values.technologies || [];
+
+  if (title.length < 2) errors.title = "Inserisci un titolo valido.";
+  if (category.length < 2) errors.category = "Inserisci una categoria.";
+  if (short_description.length < 10) errors.short_description = "La descrizione breve deve contenere almeno 10 caratteri.";
+  if (description.length < 20) errors.description = "La descrizione completa deve contenere almeno 20 caratteri.";
+  if (!technologies.length) errors.technologies = "Inserisci almeno una tecnologia.";
   const year = Number(values.year);
   if (!year || year < 2000 || year > 2100) errors.year = "Inserisci un anno valido.";
   return errors;
@@ -928,10 +942,12 @@ function collectSkillFormValues(form) {
 
 function validateSkillForm(values) {
   const errors = {};
+  const name = values.name || "";
+  const group_name = values.group_name || "";
   const level = Number(values.level_value);
 
-  if (values.name.length < 2) errors.name = "Inserisci almeno 2 caratteri.";
-  if (values.group_name.length < 2) errors.group_name = "Inserisci un gruppo valido.";
+  if (name.length < 2) errors.name = "Inserisci almeno 2 caratteri.";
+  if (group_name.length < 2) errors.group_name = "Inserisci un gruppo valido.";
   if (!Number.isInteger(level) || level < 0 || level > 100) {
     errors.level_value = "Inserisci un valore intero tra 0 e 100.";
   }
