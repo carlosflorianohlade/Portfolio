@@ -400,7 +400,6 @@ async function initializeProjectDetailPage() {
         <dl class="project-detail-meta">
           <div><dt>Categoria</dt><dd>${escapeHtml(project.category)}</dd></div>
           <div><dt>Anno</dt><dd>${escapeHtml(project.year)}</dd></div>
-          <div><dt>Ruolo</dt><dd>Design e sviluppo</dd></div>
         </dl>
       </header>
 
@@ -420,10 +419,8 @@ async function initializeProjectDetailPage() {
         <article>
           <h2>Il progetto</h2>
           <p>${escapeHtml(project.description)}</p>
-          <h3>La sfida</h3>
-          <p>${escapeHtml(project.challenge || "Definire un'esperienza chiara, coerente e semplice da usare.")}</p>
-          <h3>La soluzione</h3>
-          <p>${escapeHtml(project.solution || "Un sistema visivo modulare e un'interazione progettata intorno alle necessità dell'utente.")}</p>
+          ${project.challenge ? `<h3>La sfida</h3><p>${escapeHtml(project.challenge)}</p>` : ""}
+          ${project.solution ? `<h3>La soluzione</h3><p>${escapeHtml(project.solution)}</p>` : ""}
         </article>
       </div>
     </div>`;
