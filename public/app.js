@@ -1,5 +1,12 @@
 "use strict";
 
+const ALLOWED_ADMIN_REDIRECTS = [
+  "admin-dashboard.html",
+  "admin-project-form.html",
+  "admin-skills.html",
+  "admin-messages.html"
+];
+
 const API_BASE = "/api";
 
 const state = {
@@ -611,6 +618,11 @@ function showAdminFieldErrors(form, errors) {
   });
 }
 
+function getSafeAdminRedirect(nextValue) {
+  const page = (nextValue || "").split("?")[0].split("#")[0];
+  return ALLOWED_ADMIN_REDIRECTS.includes(page) ? nextValue : "admin-dashboard.html";
+}
+
 async function initializeAdminLoginPage() {
   const form = document.querySelector("[data-admin-login-form]");
   const status = document.querySelector("[data-admin-login-status]");
@@ -621,7 +633,7 @@ async function initializeAdminLoginPage() {
   const admin = await checkAdminSession();
   if (admin) {
     const params = new URLSearchParams(window.location.search);
-    window.location.href = params.get("next") || "admin-dashboard.html";
+    window.location.href = getSafeAdminRedirect(params.get("next"));
     return;
   }
 
@@ -652,7 +664,7 @@ async function initializeAdminLoginPage() {
       });
 
       const params = new URLSearchParams(window.location.search);
-      window.location.href = params.get("next") || "admin-dashboard.html";
+      window.location.href = getSafeAdminRedirect(params.get("next"));
     } catch (error) {
       setFormStatus(status, error.message || "Credenziali non valide.", "error");
     } finally {
