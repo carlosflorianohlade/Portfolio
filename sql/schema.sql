@@ -183,16 +183,3 @@ VALUES
   ('Linux / terminale', 'Strumenti', 70)
 ON DUPLICATE KEY UPDATE
   level_value = VALUES(level_value);
-
--- Account admin dimostrativo:
--- email: admin@example.com
--- password: Admin123!
--- Hash generato con crypto.pbkdf2Sync(password, salt, 100000, 64, 'sha256').
-INSERT INTO admin_users (email, password_hash, password_salt)
-VALUES (
-  'admin@example.com',
-  '7d27e98b5868f4626c6a2f2e55249f8c9b53cdb3e159dfc5d2341a6ad57dd1e850154a10fe2c17d14bef29f3332213bacd51785e778bf05496b1597302d4e254',
-  'portfolio_demo_salt_2026'
-)
-ON DUPLICATE KEY UPDATE
-  email = VALUES(email);

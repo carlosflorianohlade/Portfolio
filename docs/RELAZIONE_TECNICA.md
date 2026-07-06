@@ -102,7 +102,7 @@ L'autenticazione usa JWT perche' permette di firmare un token contenente solo da
 ```json
 {
   "adminId": 1,
-  "email": "admin@example.com",
+  "email": "email@dominio.it",
   "role": "admin"
 }
 ```
@@ -118,6 +118,30 @@ Il middleware `requireAdminAuth`:
 5. blocca la richiesta con `401` se manca o non e' valido.
 
 Le pagine `admin-dashboard.html` e `admin-project-form.html` sono protette anche lato server: se il token manca, Express reindirizza verso il login.
+
+### Creazione del primo admin
+
+Il file `sql/schema.sql` **non include piu'** un account amministratore dimostrativo: le credenziali demo sono state rimosse per evitare di committare email e password note nel repository. Il primo admin deve essere creato tramite lo script interattivo `scripts/create-admin.js`, lanciato con `npm run create-admin`.
+
+Lo script:
+
+- chiede email e password all'utente da terminale;
+- genera un salt casuale di 24 byte con `crypto.randomBytes`;
+- calcola l'hash PBKDF2 con `crypto.pbkdf2Sync(password, salt, 100000, 64, 'sha256')`;
+- salva email, hash e salt nella tabella `admin_users`;
+- se l'email e' gia' presente, aggiorna hash e salt (utile per il reset password).
+
+All'avvio, il server esegue un controllo che conta gli admin presenti in `admin_users`. Se il conteggio e' zero, viene stampato un avviso ben visibile in console con il comando `npm run create-admin` da eseguire.
+
+### Sicurezza dello script create-admin
+
+Lo script mostra la password in chiaro mentre viene digitata. Questa scelta e' **voluta** perche' il progetto ha **solo scopo accademico**:
+
+- non introduce dipendenze esterne come `readline-sync` o `mute-stream`;
+- l'input resta limitato al terminale locale di chi esegue lo script;
+- l'hash PBKDF2 finale salvato nel database non contiene la password in chiaro.
+
+In un contesto di produzione si consiglia di mascherare l'input con un carattere come `*` oppure di passare la password tramite variabile d'ambiente letta con `process.env`.
 
 ## CRUD progetti
 

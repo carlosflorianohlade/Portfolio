@@ -103,6 +103,8 @@ id, email, password_hash, password_salt, created_at, updated_at
 
 La password non viene salvata in chiaro.
 
+**Importante:** lo script `sql/schema.sql` non inserisce piu' un account dimostrativo nella tabella `admin_users`. L'admin deve essere creato al primo avvio con `npm run create-admin`, che richiede email e password interattivamente e applica hash PBKDF2 con salt casuale. Se al boot il database non contiene nessun admin, il server stampa un avviso in console che invita a eseguire lo script. La password compare in chiaro sul terminale solo perche' il progetto ha **scopo esclusivamente accademico** e non usa dipendenze esterne per l'input masking; in produzione si consiglia di mascherare l'input o passarlo via variabile d'ambiente.
+
 ## 7. Backend Node.js / Express
 
 Il backend e' composto principalmente da:

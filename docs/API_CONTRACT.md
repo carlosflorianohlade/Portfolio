@@ -135,6 +135,10 @@ Risposta positiva:
 
 ## API admin
 
+> **Nota importante:** al primo avvio del progetto il database non contiene nessun admin. Creare il proprio account con `npm run create-admin` prima di tentare il login. Lo script chiede email e password e salva hash + salt nella tabella `admin_users`. Le credenziali demo storicamente presenti in `schema.sql` sono state rimosse per evitare di committare credenziali note nel repository.
+
+> **Password in chiaro nel terminale:** lo script `create-admin.js` mostra la password mentre viene digitata. La scelta e' deliberata perche' il progetto ha **solo scopo accademico** e mira a ridurre al minimo le dipendenze esterne: in un contesto reale si consiglia di mascherare l'input con `*` o di passare la password tramite variabile d'ambiente.
+
 Il login crea un cookie `admin_token` con:
 
 ```text
@@ -151,10 +155,12 @@ Body:
 
 ```json
 {
-  "email": "admin@example.com",
-  "password": "Admin123!"
+  "email": "email@dominio.it",
+  "password": "password-scelta-in-create-admin"
 }
 ```
+
+> Le credenziali mostrate sono solo un esempio. L'account reale deve essere creato con `npm run create-admin`.
 
 Flusso:
 
@@ -168,7 +174,7 @@ Payload JWT:
 ```json
 {
   "adminId": 1,
-  "email": "admin@example.com",
+  "email": "email@dominio.it",
   "role": "admin"
 }
 ```
@@ -182,7 +188,7 @@ Richiede cookie JWT valido.
   "success": true,
   "admin": {
     "adminId": 1,
-    "email": "admin@example.com",
+    "email": "email@dominio.it",
     "role": "admin"
   }
 }

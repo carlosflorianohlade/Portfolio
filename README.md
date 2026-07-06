@@ -115,7 +115,25 @@ NODE_ENV=development
 
 Per una consegna reale, cambia `JWT_SECRET` con una stringa lunga e non banale.
 
-### 5. Avviare il server
+### 5. Creare il primo admin (obbligatorio)
+
+Dopo aver importato lo schema, il database e' vuoto per quanto riguarda gli admin: lo script `sql/schema.sql` **non crea piu' account dimostrativi** per evitare di committare credenziali note nel repository.
+
+Creare il proprio admin con:
+
+```bash
+npm run create-admin
+```
+
+Lo script chiede email e password da terminale. La password viene hashata lato client con PBKDF2 (`crypto.pbkdf2Sync` di Node.js) e salvata insieme a un salt casuale nella tabella `admin_users`. L'admin puo' essere aggiornato rieseguendo lo script con la stessa email.
+
+All'avvio il server controlla se esiste almeno un admin nel database: in caso contrario stampa un avviso ben visibile in console con il comando da eseguire.
+
+### Nota: password visibile in chiaro nel terminale
+
+Lo script `create-admin.js` mostra la password in chiaro mentre viene digitata. Questa scelta e' voluta per un progetto a **solo scopo accademico**: non vengono aggiunte dipendenze esterne (come `readline-sync`) e la password compare solo localmente sul terminale di chi esegue lo script. In un contesto di produzione si consiglia di mascherare l'input con un carattere come `*` o di passare la password tramite variabile d'ambiente.
+
+### 6. Avviare il server
 
 ```bash
 npm start
@@ -125,21 +143,6 @@ Poi apri:
 
 ```text
 http://localhost:3000
-```
-
-## Account admin demo
-
-```text
-email: admin@example.com
-password: Admin123!
-```
-
-La password non e' salvata in chiaro: nel database sono presenti `password_salt` e `password_hash`, generati con il modulo nativo `crypto` di Node.js tramite PBKDF2.
-
-Per creare o aggiornare un admin:
-
-```bash
-npm run create-admin
 ```
 
 ## Rotte API principali

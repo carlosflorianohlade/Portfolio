@@ -769,11 +769,28 @@ app.use((error, req, res, next) => {
   return sendError(res, 500, "Errore interno del server.");
 });
 
+async function checkAdminExists() {
+  const [rows] = await pool.execute(
+    `SELECT COUNT(*) AS total FROM admin_users`
+  );
+  return rows[0].total > 0;
+}
+
 app.listen(PORT, async () => {
   console.log(`Server avviato su http://localhost:${PORT}`);
   try {
     await testConnection();
     console.log("Connessione MySQL riuscita.");
+
+    const hasAdmin = await checkAdminExists();
+    if (!hasAdmin) {
+      console.warn("");
+      console.warn("============================================================");
+      console.warn("ATTENZIONE: nessun admin presente nel database.");
+      console.warn("Crea il primo admin con:  npm run create-admin");
+      console.warn("============================================================");
+      console.warn("");
+    }
   } catch {
     console.warn("Attenzione: connessione MySQL non riuscita. Controlla .env e sql/schema.sql.");
   }
