@@ -28,15 +28,13 @@ portfolio/
 ├── scripts/
 │   └── create-admin.js
 ├── docs/
-│   ├── PROPOSTA_PROGETTUALE.md
 │   ├── RELAZIONE_TECNICA.md
-│   └── CHECKLIST_CONSEGNA.md
+│   └── API_CONTRACT.md
 ├── server.js
 ├── db.js
 ├── package.json
 ├── package-lock.json
-├── .env.example
-├── API_CONTRACT.md
+├── .env
 └── README.md
 ```
 
@@ -81,7 +79,7 @@ Lo script crea il database `portfolio_db`, le tabelle e alcuni dati dimostrativi
 
 ### 3. Creare l'utente MySQL
 
-Se vuoi usare le credenziali presenti in `.env.example`, entra in MySQL ed esegui:
+Se vuoi usare le credenziali gia' presenti in `.env`, entra in MySQL ed esegui:
 
 ```sql
 CREATE USER IF NOT EXISTS 'portfolio_user'@'localhost' IDENTIFIED BY 'portfolio_pass';
@@ -93,13 +91,7 @@ In alternativa puoi usare il tuo utente MySQL modificando il file `.env`.
 
 ### 4. Configurare `.env`
 
-Copia il file di esempio:
-
-```bash
-cp .env.example .env
-```
-
-Poi controlla i valori:
+Il file `.env` e' gia' presente nella root del progetto con i valori necessari per l'avvio:
 
 ```env
 PORT=3000
@@ -113,7 +105,9 @@ JWT_EXPIRES_IN=2h
 NODE_ENV=development
 ```
 
-Per una consegna reale, cambia `JWT_SECRET` con una stringa lunga e non banale.
+In questo pacchetto di consegna il file `.env` viene fornito direttamente (anziche' un `.env.example`) per permettere l'avvio immediato del server con `npm start`. Il file e' comunque incluso in `.gitignore`, quindi non verra' mai committato in un repository pubblico.
+
+Per una consegna reale o un deploy in produzione, cambia `JWT_SECRET` con una stringa lunga, casuale e non banale, e modifica le credenziali MySQL con valori sicuri.
 
 ### 5. Creare il primo admin (obbligatorio)
 
@@ -182,25 +176,6 @@ DELETE /api/admin/messages/:id
 
 La documentazione dettagliata e' in `API_CONTRACT.md`.
 
-## Controllo rapido prima della consegna
-
-```bash
-npm run check
-npm audit
-```
-
-Poi prova manualmente:
-
-1. `http://localhost:3000/api/health`
-2. Home e pagina Progetti.
-3. Dettaglio progetto da una card.
-4. Form contatti.
-5. Login admin.
-6. Creazione, modifica ed eliminazione progetto.
-7. Creazione, modifica ed eliminazione competenza.
-8. Invio messaggio dal form contatti, lettura ed eliminazione da area admin.
-9. Logout admin.
-
 ## Sicurezza implementata
 
 - JWT firmato lato server.
@@ -213,32 +188,3 @@ Poi prova manualmente:
 - Header HTTP minimi di sicurezza: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`.
 - Token non passato in query string.
 
-## File da consegnare
-
-Consegna la cartella del progetto senza:
-
-```text
-node_modules/
-.env
-```
-
-Mantieni invece:
-
-```text
-public/
-sql/
-scripts/
-docs/
-server.js
-db.js
-package.json
-package-lock.json
-.env.example
-README.md
-API_CONTRACT.md
-Proposta_Progettuale_Portfolio_Dinamico.pdf
-```
-
-## Personalizzazione finale
-
-Nel frontend sono presenti testi e riferimenti segnaposto come `Nome Cognome`, `nome@example.com`, link GitHub/LinkedIn e CV. Prima della consegna definitiva puoi sostituirli con i tuoi dati personali reali. I progetti e le competenze, invece, vengono caricati dal database MySQL tramite API.
