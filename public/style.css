@@ -535,7 +535,7 @@ h3 {
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  animation: marquee 28s linear infinite;
+  animation: marquee 20s linear infinite;
 }
 
 .marquee-track span::after {
@@ -545,7 +545,7 @@ h3 {
 }
 
 @keyframes marquee {
-  to { transform: translateX(-50%); }
+  to { transform: translateX(-40%); }
 }
 
 .project-grid {
