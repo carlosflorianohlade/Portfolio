@@ -550,12 +550,6 @@ function setFooterYear() {
   });
 }
 
-function initializeMarquee() {
-  const track = document.querySelector("[data-marquee-track]");
-  if (!track) return;
-  track.innerHTML += track.innerHTML;
-}
-
 
 async function checkAdminSession({ redirectOnFail = false } = {}) {
   try {
@@ -1206,7 +1200,6 @@ function initializePage() {
   initializeNavigation();
   initializeTheme();
   setFooterYear();
-  initializeMarquee();
 
   const page = document.body.dataset.page;
   switch (page) {
