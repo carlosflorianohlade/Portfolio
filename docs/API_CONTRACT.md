@@ -92,14 +92,11 @@ Restituisce le competenze tecniche.
       "id": 1,
       "name": "HTML semantico",
       "group_name": "Frontend",
-      "level_value": 90,
-      "level": 90
+      "level_value": 90
     }
   ]
 }
 ```
-
-Il campo `level` e' un alias di `level_value`, mantenuto per compatibilita' con il frontend.
 
 ### POST /api/messages
 

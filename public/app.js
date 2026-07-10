@@ -253,7 +253,7 @@ async function initializeAboutPage() {
 
   container.innerHTML = skills
     .map((skill) => {
-      const level = Math.max(0, Math.min(100, Number(skill.level ?? skill.level_value) || 0));
+      const level = Math.max(0, Math.min(100, Number(skill.level_value) || 0));
       return `
         <article class="skill-card">
           <span class="small-copy muted">${escapeHtml(skill.group_name || "Competenza")}</span>
@@ -871,7 +871,7 @@ async function initializeAdminProjectFormPage() {
 function normalizeSkills(skills) {
   return (skills || []).map((skill) => ({
     ...skill,
-    level_value: Math.max(0, Math.min(100, Number(skill.level_value ?? skill.level) || 0))
+    level_value: Math.max(0, Math.min(100, Number(skill.level_value) || 0))
   }));
 }
 
@@ -972,7 +972,7 @@ function fillSkillForm(form, skill) {
   form.elements.id.value = skill.id || "";
   form.elements.name.value = skill.name || "";
   form.elements.group_name.value = skill.group_name || "";
-  form.elements.level_value.value = skill.level_value ?? skill.level ?? "";
+  form.elements.level_value.value = skill.level_value ?? "";
   const title = document.querySelector("[data-skill-form-title]");
   const submit = document.querySelector("[data-skill-submit]");
   if (title) title.textContent = "Modifica competenza";

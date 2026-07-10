@@ -206,9 +206,7 @@ function validateProject(project) {
 }
 
 function normalizeSkillBody(body) {
-  const levelValue = body.level_value === undefined || body.level_value === ""
-    ? Number(body.level)
-    : Number(body.level_value);
+  const levelValue = body.level_value === "" ? NaN : Number(body.level_value);
 
   return {
     name: cleanString(body.name),
@@ -256,7 +254,6 @@ const skillSelectFields = `
   name,
   group_name,
   level_value,
-  level_value AS level,
   created_at
 `;
 
