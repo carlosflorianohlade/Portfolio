@@ -1,5 +1,3 @@
--- Schema MySQL per il progetto "Portfolio personale dinamico".
--- Per una reinstallazione completamente pulita si puo' scommentare la riga seguente.
 DROP DATABASE IF EXISTS portfolio_db;
 
 CREATE DATABASE IF NOT EXISTS portfolio_db
@@ -87,7 +85,7 @@ VALUES
   (
     'Atlas',
     'Dashboard editoriale per trasformare dati complessi in decisioni immediate.',
-    'Atlas è un progetto dimostrativo dedicato alla visualizzazione di indicatori, attività e obiettivi. L’interfaccia privilegia chiarezza, gerarchia e rapidità di consultazione.',
+    'Atlas è un progetto dimostrativo dedicato alla visualizzazione di indicatori, attività e obiettivi. L''interfaccia privilegia chiarezza, gerarchia e rapidità di consultazione.',
     'Web app',
     'HTML, CSS Grid, JavaScript, Fetch API',
     'assets/images/project-atlas.svg',
@@ -95,7 +93,7 @@ VALUES
     '#',
     2026,
     1,
-    'Organizzare molte informazioni senza sovraccaricare l’utente.',
+    'Organizzare molte informazioni senza sovraccaricare l''utente.',
     'Una struttura modulare, filtri contestuali e componenti visivi coerenti.'
   ),
   (
@@ -108,7 +106,7 @@ VALUES
     '#',
     '#',
     2026,
-    1,
+    0,
     'Comunicare personalità senza sacrificare leggibilità e prestazioni.',
     'Una palette essenziale, componenti leggeri e una gerarchia tipografica forte.'
   ),
@@ -153,6 +151,20 @@ VALUES
     0,
     'Presentare molte opzioni mantenendo un percorso chiaro verso la prenotazione.',
     'Filtri combinati, informazioni prioritarie e stati visivi espliciti.'
+  ),
+  (
+    'Uniform Coloring',
+    'Risolutore IA per il dominio dell''Uniform Coloring.',
+    'Combina la visione artificiale (OpenCV + CNN) per interpretare griglie scritte a mano e algoritmi di ricerca (A*) per trovare il percorso ottimo',
+    'Machine Learning - AI',
+    'Python, OpenCV, TensorFlow',
+    'assets/images/project-uniform-coloring.svg',
+    '#',
+    'https://github.com/carlosflorianohlade/Uniform-Coloring',
+    2025,
+    1,
+    'Riconoscere automaticamente una griglia di Uniform Coloring disegnata a mano tramite CNN, e confrontare diversi algoritmi di ricerca (UCS, Greedy, A*) per trovarne la soluzione a costo minimo.',
+    'Pipeline in due fasi: una CNN (addestrata su EMNIST, con OpenCV per il rilevamento della griglia) digitalizza l''immagine disegnata a mano; il problema viene poi risolto come ricerca nello spazio degli stati, confrontando UCS, Greedy e A* con euristica ammissibile per garantire l''ottimalità.'
   )
 ON DUPLICATE KEY UPDATE
   short_description = VALUES(short_description),
