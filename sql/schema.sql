@@ -69,20 +69,6 @@ INSERT INTO projects
   (title, short_description, description, category, technologies, image_url, project_url, repository_url, year, featured, challenge, solution)
 VALUES
   (
-    'Portfolio personale dinamico',
-    'Portfolio responsive con pagine dinamiche, API REST, Node.js e MySQL.',
-    'Progetto universitario di Programmazione Web e Mobile: un portfolio personale dinamico con frontend HTML, CSS e JavaScript, backend Node.js, database MySQL e area amministrativa protetta da JWT.',
-    'Web',
-    'HTML, CSS, JavaScript, Node.js, Express, MySQL, JWT',
-    'assets/images/project-portfolio.svg',
-    '#',
-    '#',
-    2026,
-    1,
-    'Realizzare un sito personale completo, responsive e capace di leggere e salvare dati persistenti senza usare framework vietati.',
-    'Separazione tra frontend statico, API REST, database MySQL e area admin protetta tramite cookie HttpOnly con JWT firmato lato server.'
-  ),
-  (
     'Atlas',
     'Dashboard editoriale per trasformare dati complessi in decisioni immediate.',
     'Atlas è un progetto dimostrativo dedicato alla visualizzazione di indicatori, attività e obiettivi. L''interfaccia privilegia chiarezza, gerarchia e rapidità di consultazione.',
@@ -158,13 +144,27 @@ VALUES
     'Combina la visione artificiale (OpenCV + CNN) per interpretare griglie scritte a mano e algoritmi di ricerca (A*) per trovare il percorso ottimo',
     'Machine Learning - AI',
     'Python, OpenCV, TensorFlow',
-    'assets/images/project-uniform-coloring.svg',
+    'assets/images/cnn.png',
     '#',
     'https://github.com/carlosflorianohlade/Uniform-Coloring',
     2025,
     1,
     'Riconoscere automaticamente una griglia di Uniform Coloring disegnata a mano tramite CNN, e confrontare diversi algoritmi di ricerca (UCS, Greedy, A*) per trovarne la soluzione a costo minimo.',
     'Pipeline in due fasi: una CNN (addestrata su EMNIST, con OpenCV per il rilevamento della griglia) digitalizza l''immagine disegnata a mano; il problema viene poi risolto come ricerca nello spazio degli stati, confrontando UCS, Greedy e A* con euristica ammissibile per garantire l''ottimalità.'
+  ),
+  (
+    'Sistema Distribuito con JWT e TCC',
+    'Sistema distribuito basato su microservizi per la gestione di ordini tramite il protocollo TCC',
+    'Tramite un coordinatore si gestiscono tre diversi microservizi (inventory - payment - shipping) per gestire le fasi di un ordine tramite il pattern TCC (Try-Confirm/Cancel)',
+    'Distributed System',
+    'Python, Docker Compose',
+    'assets/images/progetto_backend.png',
+    '#',
+    'https://github.com/carlosflorianohlade/Distributed-System-with-JWT-TCC',
+    2026,
+    1,
+    'Garantire la coerenza di una transazione distribuita su più microservizi indipendenti (inventario, pagamento, spedizione) senza un database condiviso, gestendo fallimenti parziali, prenotazioni con scadenza configurabile e il rischio che una richiesta di conferma o annullamento vada persa o arrivi in ritardo.',
+    'Il coordinatore (order-service) implementa il pattern Try-Confirm/Cancel: ogni partecipante riserva provvisoriamente una risorsa nella fase Try, e solo dopo il consenso di tutti e tre i servizi la transazione viene confermata con Confirm, altrimenti compensata con Cancel su chi aveva già riservato. Per evitare prenotazioni bloccate all''infinito in caso di crash, ogni partecipante applica una TTL configurabile con scadenza lazy (controllata a ogni richiesta successiva, senza scheduler in background). Il coordinatore persiste il log delle decisioni per poter recuperare transazioni incomplete dopo un riavvio, mentre Confirm e Cancel sono resi idempotenti per tollerare i retry senza effetti collaterali. L''autenticazione tra client e coordinatore avviene tramite JWT emesso da un servizio dedicato, e l''intero sistema è containerizzato con Docker Compose.'
   )
 ON DUPLICATE KEY UPDATE
   short_description = VALUES(short_description),
