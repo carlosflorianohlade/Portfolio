@@ -83,7 +83,7 @@ function verifyPassword(password, salt, expectedHash) {
 }
 
 function getCookieMaxAgeMs() {
-  const match = String(JWT_EXPIRES_IN).match(/^(\d+)([smhd])$/);
+  const match = JWT_EXPIRES_IN.match(/^(\d+)([smhd])$/);
   if (!match) return 2 * 60 * 60 * 1000;
 
   const value = Number(match[1]);

@@ -411,10 +411,6 @@ h3 {
   background: var(--text);
 }
 
-.button-primary:visited {
-  color: var(--surface);
-}
-
 .button-primary:hover {
   background: var(--accent-dark);
 }
@@ -468,14 +464,6 @@ h3 {
   transform: rotate(-5deg);
 }
 
-.orbit-card-tertiary {
-  width: 9rem;
-  left: 0;
-  top: 0;
-  padding: 1rem;
-  transform: rotate(-8deg);
-}
-
 .orbit-kicker {
   color: var(--accent-dark);
   font-size: 0.74rem;
@@ -503,24 +491,13 @@ h3 {
   background: var(--surface-strong);
 }
 
-.code-line:nth-child(1) { width: 88%; }
-.code-line:nth-child(2) { width: 64%; }
-.code-line:nth-child(3) { width: 74%; background: var(--accent-soft); }
+.code-line:nth-child(1) { width: 80%; }
+.code-line:nth-child(2) { width: 88%; }
+.code-line:nth-child(3) { width: 70%; background: var(--accent-soft); }
 .code-line:nth-child(4) { width: 52%; }
-
-.metric {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 2.4rem;
-}
-
-.metric-label {
-  color: var(--muted);
-  font-size: 0.82rem;
-}
 
 .marquee {
   overflow: hidden;
-  overflow-x: hidden;
   border-block: 1px solid var(--line);
   background: color-mix(in srgb, var(--surface) 65%, transparent);
 }
@@ -725,7 +702,7 @@ h3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.2rem;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1.5rem;
 }
 
 .sticky-note > div {
@@ -1261,10 +1238,6 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .projects-toolbar .field:first-child {
-    grid-column: auto;
-  }
-
   .timeline-item {
     grid-template-columns: 1fr;
     gap: 0.45rem;
@@ -1298,10 +1271,6 @@ h3 {
 
   .button {
     width: 100%;
-  }
-
-  .orbit-card-tertiary {
-    width: 7.5rem;
   }
 
   .orbit-card-secondary {

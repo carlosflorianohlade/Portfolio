@@ -9,14 +9,9 @@ const ALLOWED_ADMIN_REDIRECTS = [
 
 const API_BASE = "/api";
 
-const state = {
-  projects: [],
-  skills: []
-};
-
 function escapeHtml(value = "") {
   const element = document.createElement("div");
-  element.textContent = String(value);
+  element.textContent = value;
   return element.innerHTML;
 }
 
@@ -50,15 +45,13 @@ async function fetchJson(url, options = {}) {
 async function getProjects() {
   const data = await fetchJson(`${API_BASE}/projects`);
   const projects = Array.isArray(data) ? data : data.projects;
-  state.projects = normalizeProjects(projects || []);
-  return state.projects;
+  return normalizeProjects(projects || []);
 }
 
 async function getSkills() {
   const data = await fetchJson(`${API_BASE}/skills`);
   const skills = Array.isArray(data) ? data : data.skills;
-  state.skills = skills || [];
-  return state.skills;
+  return skills || [];
 }
 
 function normalizeProjects(projects) {
@@ -546,7 +539,7 @@ function showToast(message) {
 
 function setFooterYear() {
   document.querySelectorAll("[data-current-year]").forEach((element) => {
-    element.textContent = String(new Date().getFullYear());
+    element.textContent = new Date().getFullYear();
   });
 }
 
@@ -794,7 +787,7 @@ function fillProjectForm(form, project) {
   form.elements.project_url.value = project.project_url || "";
   form.elements.challenge.value = project.challenge || "";
   form.elements.solution.value = project.solution || "";
-  form.elements.featured.checked = Boolean(project.featured);
+  form.elements.featured.checked = project.featured;
 }
 
 async function initializeAdminProjectFormPage() {
