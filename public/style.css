@@ -1149,6 +1149,10 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .admin-quicklinks {
+    grid-template-columns: 1fr;
+  }
+
   .service-item,
   .service-item + .service-item {
     padding-inline: 0;
@@ -1277,6 +1281,15 @@ h3 {
   .sticky-note div {
     grid-template-columns: 1fr;
     gap: 0.2rem;
+  }
+
+  .admin-grid-two {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .admin-grid-two > * {
+    width: 100% !important;
   }
 }
 
@@ -1528,6 +1541,10 @@ h3 {
   align-items: start;
 }
 
+.admin-grid-two > * {
+  min-width: 0;
+}
+
 .panel-title {
   margin: 0 0 1rem;
   font-size: 1.45rem;
@@ -1558,11 +1575,4 @@ h3 {
   margin: 0.45rem 0 0;
   color: var(--muted);
   white-space: pre-wrap;
-}
-
-@media (max-width: 980px) {
-  .admin-quicklinks,
-  .admin-grid-two {
-    grid-template-columns: 1fr;
-  }
 }
